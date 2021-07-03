@@ -1,10 +1,10 @@
-
+import MasterPage from "./components/MasterPage";
 
 function App() {
   return (
-    <div className="App">
-      hello new people
-    </div>
+    <>
+      <MasterPage />
+    </>
   );
 }
 
