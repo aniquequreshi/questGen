@@ -46,10 +46,45 @@ const MasterPage = () => {
                                 </Grid>
                             </Grid>
                         </div>
+                        <Container className={classes.cardGrid} maxWidth='md'>
+                            <Grid container spacing = {4}>
+                                <Grid item xs={12} sm={6} md={4} >
+                                    <Card className='classes.card'>
+                                        <CardContent className='classes.cardContent'>
+                                            <Typography gutterBottom variant='h5'>
+                                                Heading
+                                            </Typography>
+                                            <Typography>
+                                                Some text here.
+                                            </Typography>
+
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button size='sm' color='primary'>
+                                                View
+                                            </Button>
+                                            <Button size='sm' color='primary'>
+                                                Edit
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+
+                            </Grid>
+
+                        </Container>
 
                     </Container>
                 </div>
             </main>
+            <footer className={classes.footer}>
+                <Typography variant='h6' align='center' gutterBottom>
+                    My Foot
+                </Typography>
+                <Typography variant='subtitle1' align='center' color='textSecondary'>
+                    More about my Foot
+                </Typography>
+            </footer>
         </div>
     );
 }
