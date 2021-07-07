@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '20px'
     },
     button: {
-        marginTop: '40px'
+        margin: theme.spacing.unit,
     },
     cardGrid:{
         padding: '20px 0'
