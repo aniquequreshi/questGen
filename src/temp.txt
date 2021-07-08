@@ -1,1 +1,3 @@
   <Field type='text' id='choiceGroup' name='choiceGroup'  />
+
+  <ErrorMessage name='choiceItems' />

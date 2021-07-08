@@ -9,14 +9,8 @@ const MasterPage = () => {
     return (
         <div className="MasterPage">
             <CssBaseline />
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Choice />
-                </Grid>
-            </Grid>
-            
 
-
+            <Choice />
 
         </div>
 
