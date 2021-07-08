@@ -10,8 +10,8 @@ const InputTextField = ({
     const configInputTextField = {
         ...field,
         ...otherProps,
-        variant: 'outlined'
-        //fullWidth: true
+        variant: 'outlined',
+        fullWidth: true
     };
 
     if (meta && meta.touched && meta.error) {
