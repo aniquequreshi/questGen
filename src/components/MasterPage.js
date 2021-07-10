@@ -10,6 +10,7 @@ const MasterPage = () => {
     return (
         <div className="MasterPage">
             <CssBaseline />
+            
 <Fake />
             <Choice />
 
