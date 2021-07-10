@@ -1,39 +1,42 @@
-import { Formik, FieldArray, Form, Field, ErrorMessage } from 'formik';
+import { Formik, FieldArray, Form } from 'formik';
 import * as Yup from 'yup';
 import Typography from '@material-ui/core/Typography';
 import InputTextField from './FormsUI/InputTextField';
-import { CardHeader, Container, TextField } from '@material-ui/core';
+//import { CardHeader, Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Card, CardContent, CardActions } from '@material-ui/core';
+import { Paper, Card, CardContent} from '@material-ui/core';
 import { teal } from '@material-ui/core/colors/';
 import '@fontsource/roboto';
+import { projectFirestore } from './fireConfig';
+//import { useEffect } from 'react';
 
 
-const useStyles = makeStyles((theme) => ({
+
+
+const useStyles = makeStyles(theme => ({
     grid: {
-        width: '100%',
-        margin: '100px'
+        //width: '100%',
+        //margin: '10px'
     },
     paper: {
         //backgroundColor: theme.palette.success.light,
         backgroundColor: teal[200],
-        color: theme.palette.getContrastText(teal[200]),
-        margin: '10px',
+        color: theme.palette.getContrastText(teal[200])
+        //margin: '0px 10px 0px 0px',  //T, R , B, L
         // justifyContent: 'center',
-        display: 'flex'
-
+        // display: 'flex'
     },
     card: {
-        marginTop: theme.spacing(2),
+        // marginTop: theme.spacing(1),
         backgroundColor: teal[200],
         color: theme.palette.getContrastText(teal[200])        
     },
     inputTextField: {
         backgroundColor: teal[100],
         color: theme.palette.getContrastText(teal[100])        
-    },
+    }
 
   }));
 
@@ -47,18 +50,19 @@ const validationSchema = Yup.object().shape({
     choiceItems: Yup.array()
     .of(Yup.string().trim().required("Please enter a value for each Choice"))
     .min(2,'At least two choices must be entered')
-    
-    //,
 })
 
-const onSubmit = values => {
+let collectionDocRef;
 
+const onSubmit = (values, {resetForm}) => {
+    collectionDocRef.add({values});
+    resetForm({value: ''})
 }
 
 
-
-const Choice = () => {
+const Choice = (props) => {
     const classes = useStyles()
+    collectionDocRef = projectFirestore.collection(props.collection);
 
     return (
         <div>
@@ -69,9 +73,9 @@ const Choice = () => {
 
             >
                 <Form>
-                    <Container maxWidth='sm'>
+                    
                         <Card className={classes.card} >
-                            <CardHeader title='Choices' />
+                            {/* <CardHeader title='Choices' /> */}
                             <CardContent>
                                     <InputTextField name='choiceGroup' className={classes.inputTextField} label='Group Name'/>
                             </CardContent>
@@ -87,7 +91,7 @@ const Choice = () => {
                                     
                                     <Grid container 
                                         spacing={0}
-                                        classes= {classes.grid}
+                                        className = {classes.grid}
                                         //alignItems='center'
                                         //direction = 'column'    
                                     >
@@ -118,8 +122,6 @@ const Choice = () => {
                                 </Typography>
                             </Button>
                         </Paper>
-                        
-                    </Container>
                 </Form>
             </Formik>
 

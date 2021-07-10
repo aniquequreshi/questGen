@@ -11,11 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 //import Link from '@material-ui/core/Link';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import useStyles from './styles';
 
 
 const SamplePage = () => {
-    const classes = useStyles();
+    //const classes = useStyles();
     return (
         <div className="SamplePage">
             <CssBaseline/>
