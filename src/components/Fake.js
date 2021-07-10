@@ -1,25 +1,26 @@
-import { projectFirestore } from '../fireConfig';
+//import { projectFirestore } from '../fireConfig';
+import firebase from './fireConfig';
 
 const someData = {
-    name: 'john',
-    age: 24
+    name: 'john smith',
+    age: 254
 }
 
 const addData = (ref) => {
     
-    //collectionRef.add({someData});
-    ref.doc("LA").set({
-        name: "Los Angeles",
-        state: "CA",
-        country: "USA"
-    });
+    ref.add({someData});
+    // ref.doc("LA").add({
+    //     name: "Los Angeles",
+    //     state: "CA",
+    //     country: "USA"
+    // });
 }
 
 const Fake = () => {
-
-    const collectionRef = projectFirestore.collection('fake');
+    const ref = firebase.firestore().collection("schools");
+    //const collectionRef = projectFirestore.collection('fake');
     return (
-        <button onClick={() => addData(collectionRef) }>Add</button>
+        <button onClick={() => addData(ref) }>Add</button>
     );
 }
  
