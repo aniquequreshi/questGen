@@ -8,9 +8,14 @@ const ChoiceList = () => {
     const [dataDocs, setDataDocs] = useState([]);
 
     const fetchData = async () => {
-        //let documents = []
-        const data = await projectFirestore.collection('one').get()
-        setDataDocs(data.docs.map(doc => doc.data()))
+        let documents = []
+        const myData = await projectFirestore.collection('one').get();
+        myData.docs.forEach(doc => {
+            documents.push({...doc.data(), id: doc.id});
+        });
+        setDataDocs(documents);
+        
+        //setDataDocs(data.docs.map(doc => doc.data()))
     }
 
     useEffect(() => {
@@ -34,6 +39,8 @@ const ChoiceList = () => {
                 <div key= {dataDoc.choiceGroup}>
                     {dataDoc.choiceGroup}
                     {dataDoc.choiceItems}
+                    <br/>
+                    {dataDoc.id}
                    
                 </div>
             ))}
