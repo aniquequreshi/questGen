@@ -15,38 +15,28 @@ const ChoiceList = () => {
         });
         setDataDocs(documents);
         
-        //setDataDocs(data.docs.map(doc => doc.data()))
     }
 
     useEffect(() => {
 
         fetchData();
-        //document.getElementById('junk').innerHTML=Array.isArray(dataDocs);
-
-        // console.log(dataDocs);
        
       // eslint-disable-next-line        
       }, []);
 
-    
-      
-
-    
 
     return (
         <div>
-            {dataDocs.map( dataDoc => (
-                <div key= {dataDoc.choiceGroup}>
-                    {dataDoc.choiceGroup}
-                    {dataDoc.choiceItems}
-                    <br/>
-                    {dataDoc.id}
-                   
+            {dataDocs && dataDocs.map( (dataDoc) => (
+                <div key= {dataDoc.id}>
+                   <h4> {dataDoc.choiceGroup} </h4>
+                   <ul>
+                    { (dataDoc.choiceItems)  &&  (dataDoc.choiceItems).map ( (item , index) => (
+                        <li key={index}> {item}</li>
+                    ))}
+                   </ul>
                 </div>
             ))}
-
-        <div id='junk'>
-        </div>
 
         </div>
 
