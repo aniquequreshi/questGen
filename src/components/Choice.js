@@ -16,10 +16,6 @@ import { projectFirestore } from './fireConfig';
 
 
 const useStyles = makeStyles(theme => ({
-    grid: {
-        //width: '100%',
-        //margin: '10px'
-    },
     paper: {
         //backgroundColor: theme.palette.success.light,
         backgroundColor: teal[200],
@@ -86,28 +82,40 @@ const Choice = (props) => {
                                 const {push, remove, form} = fieldArrayProps
                                 const {values} = form
                                 const {choiceItems} = values
+                                
 
                                 return <div>
                                     
                                     <Grid container 
-                                        spacing={0}
-                                        className = {classes.grid}
+                                        //spacing={0}
+                                        //className = {classes.grid}
                                         //alignItems='center'
-                                        //direction = 'column'    
+                                        direction = 'column'    
                                     >
                                         {choiceItems.map((choiceItem, index) => (
-                                            <Grid item key={index} sm={12}>
-                                                <Paper className={classes.paper}>
-                                                    <InputTextField className={classes.inputTextField} name={`choiceItems[${index}]`} label={`Choice ${index + 1}`} />
-                                                        {
-                                                            index >1 &&
-                                                            (<Button type='button' variant='outlined' color= 'secondary' onClick={()=>remove(index)}>-</Button>)
-                                                        }
-                                                        {
-                                                            index > 0 &&
-                                                            (<Button type='button' variant='outlined' color='primary' onClick={()=>push('')}>+</Button>)
-                                                        }
-                                                </Paper>
+                                            <Grid item key={index} >
+                                                <Grid container>
+                                                    <Grid item xs ={10}>
+                                                        <Paper className={classes.paper}>
+                                                            <InputTextField className={classes.inputTextField} name={`choiceItems[${index}]`} label={`Choice ${index + 1}`} />
+                                                            
+                                                        </Paper>
+                                                    </Grid>
+                                                    <Grid item xs ={2} >
+                                                        <Paper className={classes.paper}>
+                                                            {
+                                                                
+                                                                index >1 &&
+                                                                (<Button type='button' variant='outlined' fullWidth={true} color= 'secondary' onClick={()=>remove(index)}>-</Button>)
+                                                            }
+                                                            {
+                                                                index > (choiceItems.length -2) &&
+                                                                (<Button type='button' variant='outlined' fullWidth={true} color='primary' onClick={()=>push('')}>+</Button>)
+                                                            }
+                                                        </Paper>
+                                                    </Grid>
+                                                
+                                                </Grid>
                                             </Grid>
                                         ))}
                                     </Grid>

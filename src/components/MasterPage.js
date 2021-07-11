@@ -7,7 +7,7 @@ const MasterPage = () => {
     //const classes = useStyles();
     return (
         <div className="MasterPage">
-            <Container maxWidth='sm'>
+            <Container>
             <CssBaseline />
             
             <Choice collection='one'/>
