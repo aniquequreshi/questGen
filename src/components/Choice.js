@@ -16,10 +16,17 @@ import { projectFirestore } from './fireConfig';
 
 
 const useStyles = makeStyles(theme => ({
+    grid: {
+        backgroundColor: teal[200],
+        color: theme.palette.getContrastText(teal[200])
+
+    },
     paper: {
         //backgroundColor: theme.palette.success.light,
         backgroundColor: teal[200],
-        color: theme.palette.getContrastText(teal[200])
+        color: theme.palette.getContrastText(teal[200]),
+        textAlign: 'center'
+
         //margin: '0px 10px 0px 0px',  //T, R , B, L
         // justifyContent: 'center',
         // display: 'flex'
@@ -88,7 +95,7 @@ const Choice = (props) => {
                                     
                                     <Grid container 
                                         //spacing={0}
-                                        //className = {classes.grid}
+                                        className = {classes.grid}
                                         //alignItems='center'
                                         direction = 'column'    
                                     >
@@ -106,11 +113,11 @@ const Choice = (props) => {
                                                             {
                                                                 
                                                                 index >1 &&
-                                                                (<Button type='button' variant='outlined' fullWidth={true} color= 'secondary' onClick={()=>remove(index)}>-</Button>)
+                                                                (<Button type='button' variant='contained' fullWidth={false} color= 'secondary' onClick={()=>remove(index)}>-</Button>)
                                                             }
                                                             {
                                                                 index > (choiceItems.length -2) &&
-                                                                (<Button type='button' variant='outlined' fullWidth={true} color='primary' onClick={()=>push('')}>+</Button>)
+                                                                (<Button type='button' variant='contained' fullWidth={false} color='primary' onClick={()=>push('')}>+</Button>)
                                                             }
                                                         </Paper>
                                                     </Grid>
@@ -123,11 +130,11 @@ const Choice = (props) => {
                             }}
                         </FieldArray>
                         
-                        <Paper className={classes.paper}>
-                            <Button type='submit' variant='outlined' fullWidth={true}>
-                                <Typography variant='h6'>
+                        <Paper className={classes.paper} square>
+                            <Button type='submit' variant='contained' color='primary'>
+                                
                                     Save
-                                </Typography>
+                                
                             </Button>
                         </Paper>
                 </Form>
