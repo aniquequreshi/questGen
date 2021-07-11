@@ -1,6 +1,6 @@
 import { Formik, FieldArray, Form } from 'formik';
 import * as Yup from 'yup';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import InputTextField from './FormsUI/InputTextField';
 //import { CardHeader, Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
@@ -58,7 +58,7 @@ const validationSchema = Yup.object().shape({
 let collectionDocRef;
 
 const onSubmit = (values, {resetForm}) => {
-    collectionDocRef.add({values});
+    collectionDocRef.add(values);
     resetForm({value: ''})
 }
 
