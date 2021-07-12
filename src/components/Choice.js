@@ -44,8 +44,10 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const initialValues = {
-    choiceGroup: '',
-    choiceItems: ['', '']
+    choiceGroup: 'group',
+    choiceItems: ['1', '2'],
+    createdAt: new Date(),
+    updatedAt: new Date()
 }
 
 const validationSchema = Yup.object().shape({
@@ -56,10 +58,18 @@ const validationSchema = Yup.object().shape({
 })
 
 let collectionDocRef;
+let newObj;
 
-const onSubmit = (values, {resetForm}) => {
-    collectionDocRef.add(values);
-    resetForm({value: ''})
+const onSubmit = async (values, {resetForm}) => {
+    const docRef = await collectionDocRef.add(values)
+    newObj = {
+        choiceGroup: values.choiceGroup,
+        choiceItems: values.choiceItems,
+        createdAt: values.createdAt,
+        updatedAt: values.updatedAt,
+        id: docRef.id
+    }
+    resetForm({value: ''});
 }
 
 
