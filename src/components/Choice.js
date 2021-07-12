@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const initialValues = {
-    choiceGroup: 'group',
-    choiceItems: ['1', '2'],
+    choiceGroup: '',
+    choiceItems: ['', ''],
     createdAt: new Date(),
     updatedAt: new Date()
 }
@@ -54,22 +54,40 @@ const validationSchema = Yup.object().shape({
     choiceGroup: Yup.string().required('You must enter a Group value'),
     choiceItems: Yup.array()
     .of(Yup.string().trim().required("Please enter a value for each Choice"))
-    .min(2,'At least two choices must be entered')
+    // .min(2,'At least two choices must be entered')
 })
 
 let collectionDocRef;
 let newObj;
 
 const onSubmit = async (values, {resetForm}) => {
-    const docRef = await collectionDocRef.add(values)
-    newObj = {
-        choiceGroup: values.choiceGroup,
-        choiceItems: values.choiceItems,
-        createdAt: values.createdAt,
-        updatedAt: values.updatedAt,
-        id: docRef.id
+    try
+    {
+        const docRef = await collectionDocRef.add(values)
+        
+        newObj = {
+            choiceGroup: values.choiceGroup,
+            choiceItems: values.choiceItems,
+            createdAt: values.createdAt,
+            updatedAt: values.updatedAt,
+            id: docRef.id
+        }
+        
     }
-    resetForm({value: ''});
+    catch (err) {
+        newObj = {
+            error: err
+        }
+    }
+    finally {
+        if (newObj.error) {
+            console.log ('Error in Saving')
+        }
+        else {
+            resetForm({value: ''});
+        }
+    }
+
 }
 
 
