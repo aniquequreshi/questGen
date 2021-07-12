@@ -10,16 +10,12 @@ import { Paper, Card, CardContent} from '@material-ui/core';
 import { teal } from '@material-ui/core/colors/';
 import '@fontsource/roboto';
 import { projectFirestore } from './fireConfig';
-//import { useEffect } from 'react';
-
-
-
+import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
     grid: {
         backgroundColor: teal[200],
         color: theme.palette.getContrastText(teal[200])
-
     },
     paper: {
         //backgroundColor: theme.palette.success.light,
@@ -57,43 +53,49 @@ const validationSchema = Yup.object().shape({
     // .min(2,'At least two choices must be entered')
 })
 
-let collectionDocRef;
-let newObj;
-
-const onSubmit = async (values, {resetForm}) => {
-    try
-    {
-        const docRef = await collectionDocRef.add(values)
-        
-        newObj = {
-            choiceGroup: values.choiceGroup,
-            choiceItems: values.choiceItems,
-            createdAt: values.createdAt,
-            updatedAt: values.updatedAt,
-            id: docRef.id
-        }
-        
-    }
-    catch (err) {
-        newObj = {
-            error: err
-        }
-    }
-    finally {
-        if (newObj.error) {
-            console.log ('Error in Saving')
-        }
-        else {
-            resetForm({value: ''});
-        }
-    }
-
-}
-
 
 const Choice = (props) => {
-    const classes = useStyles()
-    collectionDocRef = projectFirestore.collection(props.collection);
+    const classes = useStyles();
+    const collectionDocRef = projectFirestore.collection(props.collection);
+    // const [obj, setObj] = useState({choiceGroup:'', choiceItems:[],createdAt:'', updatedAt:'', id:''});    
+    const [obj, setObj] = useState();    
+    let newObj;
+
+    const onSubmit = async (values, {resetForm}) => {
+        try
+        {
+            const docRef = await collectionDocRef.add(values)
+            
+            newObj = {
+                choiceGroup: values.choiceGroup,
+                choiceItems: values.choiceItems,
+                createdAt: values.createdAt,
+                updatedAt: values.updatedAt,
+                id: docRef.id
+            }
+        }
+        catch (err) {
+            newObj = {
+                error: err
+            }
+        }
+        finally {
+            if (newObj.error) {
+                console.log ('Error in Saving');
+                setObj(newObj);
+            }
+            else {
+                setObj(newObj);
+                resetForm({value: ''});
+                //console.log(obj);
+            }
+        }
+    
+    }
+    
+
+
+
 
     return (
         <div>
@@ -167,7 +169,10 @@ const Choice = (props) => {
                         </Paper>
                 </Form>
             </Formik>
-
+            <div id='saved'>
+                ID: {obj && (obj.id)}<br/>
+                Group: {obj && (obj.choiceGroup)}<br/>
+            </div>
         </div>
 
     );
