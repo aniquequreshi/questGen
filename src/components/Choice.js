@@ -83,7 +83,7 @@ const Choice = (props) => {
             if (newObj.error) {
                 console.log ('Error in Saving');
                 setObj(newObj);
-                props.setChoiceObject(newObj);
+//                props.setChoiceObject(newObj);
             }
             else {
                 setObj(newObj);
@@ -173,8 +173,9 @@ const Choice = (props) => {
                 </Form>
             </Formik>
             <div id='saved'>
-                ID: {obj && (obj.id)}<br/>
-                Group: {obj && (obj.choiceGroup)}<br/>
+                { obj && obj.error  && (<h1>Error!</h1>)}
+
+                { obj && obj.id  && (<h1>Saved {obj.choiceGroup}!</h1>)}
             </div>
         </div>
 
