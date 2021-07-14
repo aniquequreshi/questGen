@@ -83,10 +83,13 @@ const Choice = (props) => {
             if (newObj.error) {
                 console.log ('Error in Saving');
                 setObj(newObj);
+                props.setChoiceObject(newObj);
             }
             else {
                 setObj(newObj);
+                props.setChoiceObject(newObj);
                 resetForm({value: ''});
+
                 //console.log(obj);
             }
         }
