@@ -48,11 +48,10 @@ const validationSchema = Yup.object().shape({
     // .min(2,'At least two choices must be entered')
 })
 
-let isUpdateFlag = false;
 
 const Choice = (props) => {
 
-    const {choiceObjectUpdate} = useContext(AppContext);
+    const {choiceObjectUpdate, setChoiceObjectUpdate, isUpdate, setIsUpdate} = useContext(AppContext);
 
     const [formValues, setFormValues] = useState();
 
@@ -62,20 +61,22 @@ const Choice = (props) => {
         createdAt: new Date(),
         updatedAt: new Date()
     }
-
- 
+   
     useEffect(() => {
-        if (choiceObjectUpdate){
+        if (isUpdate && choiceObjectUpdate){
             const savedValues = {
                 choiceGroup: choiceObjectUpdate.choiceGroup,
                 choiceItems: choiceObjectUpdate.choiceItems,
                 updatedAt: new Date()
             }
         setFormValues(savedValues);
-        isUpdateFlag = true;
         }
-    },[choiceObjectUpdate]);
-
+        else {
+            setFormValues(initialValues);
+        }
+        // eslint-disable-next-line        
+    },[choiceObjectUpdate, isUpdate]);
+    
     const classes = useStyles();
 
 
@@ -87,7 +88,7 @@ const Choice = (props) => {
     let newObj;
 
     const onSubmit = async (values, {resetForm}) => {
-        if (!isUpdateFlag) {
+        if (!isUpdate) {
             try {
                 const docRef = await collectionDocRef.add(values);
 
@@ -106,38 +107,38 @@ const Choice = (props) => {
             }
             finally {
                 if (newObj.error) {
-                    console.log ('Error in Saving');
+                    // console.log ('Error in Saving');
                     setObj(newObj);
                 }
                 else {
                     setObj(newObj);
                     props.setChoiceObject(newObj);
+                    //setIsUpdate(false);
                     resetForm({value: ''});
                 }
             }
         } else {
             try {
-
-            
-            const docRef = await collectionDocRef.doc(choiceObjectUpdate.id).update(values);
+                await collectionDocRef.doc(choiceObjectUpdate.id).update(values);
+                setIsUpdate(false);
+                setChoiceObjectUpdate({});
+                resetForm({value: ''});
+            }
+            catch (err) {
+                newObj = {
+                    error: err
+                }
+                setObj(newObj);
             }
             finally {
-                
-                resetForm({value: ''});
             }
         }
 
     }
-    
-
-
 
 
     return (
         <div>
-            <form>
-                <input type='text' value={choiceObjectUpdate && choiceObjectUpdate.id} placeholder='import'/>
-            </form>
             <Formik 
                 initialValues = { formValues || initialValues} 
                 validationSchema = {validationSchema} 
@@ -209,9 +210,9 @@ const Choice = (props) => {
                 </Form>
             </Formik>
             <div id='saved'>
-                { obj && obj.error  && (<h1>Error!</h1>)}
+                { obj && obj.error  && (<h2>ERROR: Data was not saved!</h2>)}
 
-                { obj && obj.id  && (<h1>Saved {obj.choiceGroup}!</h1>)}
+                { obj && obj.id  && (<h2>Saved {obj.choiceGroup}!</h2>)}
             </div>
         </div>
 
