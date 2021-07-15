@@ -48,10 +48,11 @@ const validationSchema = Yup.object().shape({
     // .min(2,'At least two choices must be entered')
 })
 
+let isUpdateFlag = false;
 
 const Choice = (props) => {
 
-    const {choiceObject} = useContext(AppContext);
+    const {choiceObjectUpdate} = useContext(AppContext);
 
     const [formValues, setFormValues] = useState();
 
@@ -62,38 +63,18 @@ const Choice = (props) => {
         updatedAt: new Date()
     }
 
-
-    // const getData = () => {
-    //     if (props.update === 'yes') {
-            
-    //         // initialValues = {
-    //         //     id: choiceObject.id,
-    //         //     choiceGroup: choiceObject.choiceGroup,
-    //         //     choiceItems: choiceObject.choiceItems,
-    //         //     updatedAt: new Date()
-    //         // }
-    //     }
-    //     // else {
-        //     initialValues = {
-        //         choiceGroup: '',
-        //         choiceItems: ['', ''],
-        //         createdAt: new Date(),
-        //         updatedAt: new Date()
-        //     }
-        // }
-    // }
  
     useEffect(() => {
-        if (choiceObject){
+        if (choiceObjectUpdate){
             const savedValues = {
-                id: choiceObject.id,
-                choiceGroup: choiceObject.choiceGroup,
-                choiceItems: choiceObject.choiceItems,
+                choiceGroup: choiceObjectUpdate.choiceGroup,
+                choiceItems: choiceObjectUpdate.choiceItems,
                 updatedAt: new Date()
             }
         setFormValues(savedValues);
+        isUpdateFlag = true;
         }
-    },[choiceObject]);
+    },[choiceObjectUpdate]);
 
     const classes = useStyles();
 
@@ -106,38 +87,46 @@ const Choice = (props) => {
     let newObj;
 
     const onSubmit = async (values, {resetForm}) => {
-        try
-        {
-            const docRef = await collectionDocRef.add(values)
-            
-            newObj = {
-                choiceGroup: values.choiceGroup,
-                choiceItems: values.choiceItems,
-                createdAt: values.createdAt,
-                updatedAt: values.updatedAt,
-                id: docRef.id
-            }
-        }
-        catch (err) {
-            newObj = {
-                error: err
-            }
-        }
-        finally {
-            if (newObj.error) {
-                console.log ('Error in Saving');
-                setObj(newObj);
-//                props.setChoiceObject(newObj);
-            }
-            else {
-                setObj(newObj);
-                props.setChoiceObject(newObj);
-                resetForm({value: ''});
+        if (!isUpdateFlag) {
+            try {
+                const docRef = await collectionDocRef.add(values);
 
-                //console.log(obj);
+                newObj = {
+                    choiceGroup: values.choiceGroup,
+                    choiceItems: values.choiceItems,
+                    createdAt: values.createdAt,
+                    updatedAt: values.updatedAt,
+                    id: docRef.id
+                }
+            }
+            catch (err) {
+                newObj = {
+                    error: err
+                }
+            }
+            finally {
+                if (newObj.error) {
+                    console.log ('Error in Saving');
+                    setObj(newObj);
+                }
+                else {
+                    setObj(newObj);
+                    props.setChoiceObject(newObj);
+                    resetForm({value: ''});
+                }
+            }
+        } else {
+            try {
+
+            
+            const docRef = await collectionDocRef.doc(choiceObjectUpdate.id).update(values);
+            }
+            finally {
+                
+                resetForm({value: ''});
             }
         }
-    
+
     }
     
 
@@ -147,7 +136,7 @@ const Choice = (props) => {
     return (
         <div>
             <form>
-                <input type='text' value={choiceObject && choiceObject.id} placeholder='import'/>
+                <input type='text' value={choiceObjectUpdate && choiceObjectUpdate.id} placeholder='import'/>
             </form>
             <Formik 
                 initialValues = { formValues || initialValues} 

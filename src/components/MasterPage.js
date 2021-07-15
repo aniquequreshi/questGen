@@ -8,39 +8,31 @@ import { AppContext } from '../context';
 
 
 const MasterPage = () => {
-    const [choiceObject, setChoiceObject] = useState();
+    const [choiceObjectCreate, setChoiceObjectCreate] = useState();
     const [choiceObjectUpdate, setChoiceObjectUpdate] = useState();
 
     const handleClick = () => {
         const initialValues = {
-            id: '1',
+            id: 'KiCEl7Chpx4rsTRkr1qy',
             choiceGroup: 'Internet',
             choiceItems: ['TV', 'Tel'],
             updatedAt: new Date()
         }
-        setChoiceObject(initialValues);
-        setChoiceObjectUpdate('yes');
+        //setChoiceObject(initialValues);
+        setChoiceObjectUpdate(initialValues);
     }
 
-    // const initialValues = {
-    //     id: '1',
-    //     choiceGroup: 'Internet',
-    //     choiceItems: ['TV', 'Tel'],
-    //     updatedAt: new Date()
-    // }
-    // setChoiceObject(initialValues);
-
-    //const classes = useStyles();
     return (
         <div className="MasterPage">
             <Container>
             <CssBaseline />
             <button onClick={handleClick}>Load</button>
-            <h2>Master: {(choiceObject) && choiceObject.choiceGroup}</h2>
-            <AppContext.Provider value = {{choiceObject}}>
-                <Choice collection='one' update={setChoiceObjectUpdate} choiceObject={choiceObject} setChoiceObject = {setChoiceObject}/>
-                <ChoiceList />
+            <h2>Master: {(choiceObjectCreate) && choiceObjectCreate.choiceGroup}</h2>
+            <AppContext.Provider value = {{choiceObjectUpdate}}>
+                <Choice collection='one' choiceObject={choiceObjectCreate} setChoiceObject = {setChoiceObjectCreate}/>
             </AppContext.Provider>
+            <ChoiceList />
+            
             </Container>
         </div>
 
