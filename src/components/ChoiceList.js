@@ -11,7 +11,7 @@ const ChoiceList = () => {
 
     const fetchData = async () => {
         let documents = []
-        const myData = await projectFirestore.collection('one').get();
+        const myData = await projectFirestore.collection('one').orderBy('updatedAt', 'desc').get();
         myData.docs.forEach(doc => {
             documents.push({...doc.data(), id: doc.id});
         });
@@ -44,6 +44,7 @@ const ChoiceList = () => {
             {dataDocs && dataDocs.map( (dataDoc) => (
                 <div key= {dataDoc.id}>
                    <h4><button onClick={() => handleEditClick(dataDoc)}>Edit</button> {dataDoc.choiceGroup} </h4>
+                   <h2>{new Date(dataDoc.updatedAt.seconds * 1000).toLocaleString("en-US")}</h2>
                    <ul>
                     { (dataDoc.choiceItems)  &&  (dataDoc.choiceItems).map ( (item , index) => (
                         <li key={index}> {item}</li>
