@@ -4,18 +4,43 @@ import Container from '@material-ui/core/Container';
 import Choice from './Choice';
 import ChoiceList from './ChoiceList';
 import {useState} from 'react';
+import { AppContext } from '../context';
+
 
 const MasterPage = () => {
     const [choiceObject, setChoiceObject] = useState();
+    const [choiceObjectUpdate, setChoiceObjectUpdate] = useState();
+
+    const handleClick = () => {
+        const initialValues = {
+            id: '1',
+            choiceGroup: 'Internet',
+            choiceItems: ['TV', 'Tel'],
+            updatedAt: new Date()
+        }
+        setChoiceObject(initialValues);
+        setChoiceObjectUpdate('yes');
+    }
+
+    // const initialValues = {
+    //     id: '1',
+    //     choiceGroup: 'Internet',
+    //     choiceItems: ['TV', 'Tel'],
+    //     updatedAt: new Date()
+    // }
+    // setChoiceObject(initialValues);
 
     //const classes = useStyles();
     return (
         <div className="MasterPage">
             <Container>
             <CssBaseline />
+            <button onClick={handleClick}>Load</button>
             <h2>Master: {(choiceObject) && choiceObject.choiceGroup}</h2>
-            <Choice collection='one' choiceObject={choiceObject} setChoiceObject = {setChoiceObject}/>
-            <ChoiceList />
+            <AppContext.Provider value = {{choiceObject}}>
+                <Choice collection='one' update={setChoiceObjectUpdate} choiceObject={choiceObject} setChoiceObject = {setChoiceObject}/>
+                <ChoiceList />
+            </AppContext.Provider>
             </Container>
         </div>
 

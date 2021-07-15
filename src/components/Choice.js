@@ -10,7 +10,8 @@ import { Paper, Card, CardContent} from '@material-ui/core';
 import { teal } from '@material-ui/core/colors/';
 import '@fontsource/roboto';
 import { projectFirestore } from './fireConfig';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { AppContext } from '../context';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -39,12 +40,6 @@ const useStyles = makeStyles(theme => ({
 
   }));
 
-const initialValues = {
-    choiceGroup: '',
-    choiceItems: ['', ''],
-    createdAt: new Date(),
-    updatedAt: new Date()
-}
 
 const validationSchema = Yup.object().shape({
     choiceGroup: Yup.string().required('You must enter a Group value'),
@@ -55,8 +50,57 @@ const validationSchema = Yup.object().shape({
 
 
 const Choice = (props) => {
+
+    const {choiceObject} = useContext(AppContext);
+
+    const [formValues, setFormValues] = useState();
+
+    const initialValues = {
+        choiceGroup: '',
+        choiceItems: ['', ''],
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+
+
+    // const getData = () => {
+    //     if (props.update === 'yes') {
+            
+    //         // initialValues = {
+    //         //     id: choiceObject.id,
+    //         //     choiceGroup: choiceObject.choiceGroup,
+    //         //     choiceItems: choiceObject.choiceItems,
+    //         //     updatedAt: new Date()
+    //         // }
+    //     }
+    //     // else {
+        //     initialValues = {
+        //         choiceGroup: '',
+        //         choiceItems: ['', ''],
+        //         createdAt: new Date(),
+        //         updatedAt: new Date()
+        //     }
+        // }
+    // }
+ 
+    useEffect(() => {
+        if (choiceObject){
+            const savedValues = {
+                id: choiceObject.id,
+                choiceGroup: choiceObject.choiceGroup,
+                choiceItems: choiceObject.choiceItems,
+                updatedAt: new Date()
+            }
+        setFormValues(savedValues);
+        }
+    },[choiceObject]);
+
     const classes = useStyles();
+
+
     const collectionDocRef = projectFirestore.collection(props.collection);
+    
+
     // const [obj, setObj] = useState({choiceGroup:'', choiceItems:[],createdAt:'', updatedAt:'', id:''});    
     const [obj, setObj] = useState();    
     let newObj;
@@ -102,11 +146,14 @@ const Choice = (props) => {
 
     return (
         <div>
-            <Formik
-                initialValues = {initialValues}
-                validationSchema = {validationSchema}
+            <form>
+                <input type='text' value={choiceObject && choiceObject.id} placeholder='import'/>
+            </form>
+            <Formik 
+                initialValues = { formValues || initialValues} 
+                validationSchema = {validationSchema} 
                 onSubmit = {onSubmit}
-
+                enableReinitialize = {true}
             >
                 <Form>
                     
