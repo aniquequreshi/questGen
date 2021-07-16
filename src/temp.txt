@@ -1,15 +1,4 @@
 TODO
 
-When editing item, replace by ID
-
-                if (found) {
-                    console.log('found')
-                    // const replacedData = () => {
-                    //     console.log('in replaced data')
-                    const replacedData =  dataDocs.filter( (obj) => {
-                        return (obj.id !== (props.choiceObject.id))
-                    })  
-                    //
-                    setDataDocs(replacedData);
-                    console.log('new data', dataDocs);  
-                }
+Implement Auth and role based security
+Materials UI design improvements
