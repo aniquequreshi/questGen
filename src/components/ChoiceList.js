@@ -4,10 +4,12 @@ import { projectFirestore } from './fireConfig';
 import { AppContext } from '../context';
 
 
-const ChoiceList = () => {
+const ChoiceList = (props) => {
 
     const {setChoiceObjectUpdate, setIsUpdate} = useContext(AppContext);
     const [dataDocs, setDataDocs] = useState([]);
+
+    
 
     const fetchData = async () => {
         let documents = []
@@ -22,9 +24,14 @@ const ChoiceList = () => {
     useEffect(() => {
 
         fetchData();
-       
+        if (props.choiceObject) {
+            //if the object has been edited, replace it
+            dataDocs.push(props.choiceObject);
+            console.log(dataDocs);
+        }
+        
       // eslint-disable-next-line        
-      }, []);
+      }, [props.choiceObject]);
 
     const handleEditClick = (dataDoc) => {
         const initialValues = {
@@ -44,7 +51,7 @@ const ChoiceList = () => {
             {dataDocs && dataDocs.map( (dataDoc) => (
                 <div key= {dataDoc.id}>
                    <h4><button onClick={() => handleEditClick(dataDoc)}>Edit</button> {dataDoc.choiceGroup} </h4>
-                   <h2>{new Date(dataDoc.updatedAt.seconds * 1000).toLocaleString("en-US")}</h2>
+                   <h5>{new Date(dataDoc.updatedAt.seconds * 1000).toLocaleString("en-US")}</h5>
                    <ul>
                     { (dataDoc.choiceItems)  &&  (dataDoc.choiceItems).map ( (item , index) => (
                         <li key={index}> {item}</li>
@@ -52,9 +59,7 @@ const ChoiceList = () => {
                    </ul>
                 </div>
             ))}
-
         </div>
-
     );
 }
  

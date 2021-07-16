@@ -58,21 +58,22 @@ const Choice = (props) => {
     const initialValues = {
         choiceGroup: '',
         choiceItems: ['', ''],
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: '',
+        updatedAt: ''
     }
+
    
     useEffect(() => {
         if (isUpdate && choiceObjectUpdate){
             const savedValues = {
                 choiceGroup: choiceObjectUpdate.choiceGroup,
                 choiceItems: choiceObjectUpdate.choiceItems,
-                updatedAt: new Date()
+                updatedAt: ''
             }
         setFormValues(savedValues);
         }
         else {
-            setFormValues(initialValues);
+             setFormValues(initialValues);
         }
         // eslint-disable-next-line        
     },[choiceObjectUpdate, isUpdate]);
@@ -90,6 +91,9 @@ const Choice = (props) => {
     const onSubmit = async (values, {resetForm}) => {
         if (!isUpdate) {
             try {
+
+                values.createdAt = new Date();
+                values.updatedAt = new Date();
                 const docRef = await collectionDocRef.add(values);
 
                 newObj = {
@@ -119,6 +123,7 @@ const Choice = (props) => {
             }
         } else {
             try {
+                values.updatedAt = new Date();
                 await collectionDocRef.doc(choiceObjectUpdate.id).update(values);
                 setIsUpdate(false);
                 setChoiceObjectUpdate({});

@@ -1,4 +1,3 @@
-            <form>
-                
-                <input type='text' value={choiceObjectUpdate && choiceObjectUpdate.id} placeholder='import'/>
-            </form>
+TODO
+
+When editing item, replace by ID

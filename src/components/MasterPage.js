@@ -8,7 +8,7 @@ import { AppProvider } from '../context';
 
 
 const MasterPage = () => {
-    const [choiceObjectCreate, setChoiceObjectCreate] = useState();
+    const [choiceObjectNew, setChoiceObjectNew] = useState();
     // const [choiceObjectUpdate, setChoiceObjectUpdate] = useState();
 
     // const {choiceObjectToUpdate} = useContext(AppContext);
@@ -31,8 +31,8 @@ const MasterPage = () => {
 
             {/* <h2>Master: {(choiceObjectCreate) && choiceObjectCreate.choiceGroup}</h2> */}
             <AppProvider>
-                <Choice collection='one' choiceObject={choiceObjectCreate} setChoiceObject = {setChoiceObjectCreate}/>
-                <ChoiceList />
+                <Choice collection='one' choiceObject={choiceObjectNew} setChoiceObject = {setChoiceObjectNew}/>
+                <ChoiceList choiceObject={choiceObjectNew}/>
             </AppProvider>
             </Container>
         </div>
