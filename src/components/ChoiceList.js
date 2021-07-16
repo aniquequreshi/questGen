@@ -28,7 +28,7 @@ const ChoiceList = (props) => {
 
     useEffect(() => {
 
-        const insertOrReplaceObject = (async () => {
+        const updateObject = (async () => {
             const replacedData =  dataDocs.filter( (obj) => {
                 return (obj.id !== (props.choiceObject.id))
             });  
@@ -40,14 +40,26 @@ const ChoiceList = (props) => {
             //await console.log('inside', dataDocs)
         });
 
-
         if (props.choiceObject) {
-            insertOrReplaceObject();
+            updateObject();
             // setUpdateMessage('Modified');
         }
         
     // eslint-disable-next-line        
     }, [props.choiceObject]);
+
+    const handleDeleteClick = (dataDoc) => {
+        const deleteObject = (async () => {
+            const replacedData =  dataDocs.filter( (obj) => {
+                return (obj.id !== (dataDoc.id))
+            });  
+            await setDataDocs(replacedData);
+        });
+
+        deleteObject();  //after removing it from database
+
+
+    }
 
     const handleEditClick = (dataDoc) => {
         const initialValues = {
@@ -59,7 +71,6 @@ const ChoiceList = (props) => {
         }
         setIsUpdate(true);
         setChoiceObjectUpdate(initialValues);
-   
     }
 
 
@@ -68,7 +79,8 @@ const ChoiceList = (props) => {
             
             {dataDocs && dataDocs.map( (dataDoc) => (
                 <div key= {dataDoc.id}>
-                   <h4><button onClick={() => handleEditClick(dataDoc)}>Edit</button> {dataDoc.choiceGroup} </h4>
+                   <h4><button onClick={() => handleDeleteClick(dataDoc)}>Delete</button>  &nbsp;
+                   <button onClick={() => handleEditClick(dataDoc)}>Edit</button> {dataDoc.choiceGroup} </h4>
                    {/* <h5>{new Date(dataDoc.updatedAt.seconds * 1000).toLocaleDateString("en-US")}</h5>
                    <h5>{new Date(dataDoc.createdAt.seconds * 1000).toLocaleString("en-US")}</h5> */}
                    <ul>
