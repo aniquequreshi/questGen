@@ -129,6 +129,7 @@ const Choice = (props) => {
                     choiceGroup: values.choiceGroup,
                     choiceItems: values.choiceItems,
                     updatedAt: values.updatedAt,
+                    createdAt: choiceObjectUpdate.createdAt,
                     id: choiceObjectUpdate.id
                 }
                 setIsUpdate(false);
