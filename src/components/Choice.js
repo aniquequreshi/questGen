@@ -125,6 +125,12 @@ const Choice = (props) => {
             try {
                 values.updatedAt = new Date();
                 await collectionDocRef.doc(choiceObjectUpdate.id).update(values);
+                newObj = {
+                    choiceGroup: values.choiceGroup,
+                    choiceItems: values.choiceItems,
+                    updatedAt: values.updatedAt,
+                    id: choiceObjectUpdate.id
+                }
                 setIsUpdate(false);
                 setChoiceObjectUpdate({});
                 resetForm({value: ''});
@@ -133,14 +139,18 @@ const Choice = (props) => {
                 newObj = {
                     error: err
                 }
-                setObj(newObj);
             }
             finally {
+                if (newObj.error) {
+                    setObj(newObj);
+                }
+                else {
+                    setObj(newObj);
+                    props.setChoiceObject(newObj);
+                }
             }
         }
-
     }
-
 
     return (
         <div>
