@@ -49,6 +49,7 @@ const ChoiceList = (props) => {
     }, [props.choiceObject]);
 
     const handleDeleteClick = (dataDoc) => {
+        // local delete
         const deleteObject = (async () => {
             const replacedData =  dataDocs.filter( (obj) => {
                 return (obj.id !== (dataDoc.id))
@@ -56,9 +57,14 @@ const ChoiceList = (props) => {
             await setDataDocs(replacedData);
         });
 
-        deleteObject();  //after removing it from database
-
-
+        //firestore delete
+        projectFirestore.collection('one').doc(dataDoc.id).delete()
+            .then( ()=> {
+                deleteObject();
+            })
+            .catch((error) => {
+            //console.error("Error removing document: ", error);
+            });
     }
 
     const handleEditClick = (dataDoc) => {
